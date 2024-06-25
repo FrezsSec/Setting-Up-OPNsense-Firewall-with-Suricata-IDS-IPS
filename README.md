@@ -85,13 +85,18 @@ I'll be using VirtualBox as it is a great free alternative for virtualization.
 
 ![14](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/6535c2ea-f342-4914-a792-d5a0bba07c35)
 
-15. Once that is complete, select "Complete Install."
+15. Once that is done, select "Complete Install."
 
 ![15](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/cdcc4723-1869-485a-af04-f72b9b345b68)
 
-16. Once it has booted up, proceed to log in.
+16. Power off OPNsense, go to Settings, navigate to System and Storage, and remove the OPNsense DVD to ensures the system will boot from the virtual hard disk on the next start.
+
+![remove](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/3d817c2c-242e-4a26-b2f7-001c54f259ed)
+
+17. Start the OPNsense virtual machine again, proceed to log in.
 
 ![16](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/17a071d3-f761-40e6-922d-cf282635a815)
+
 
 Now we are going to assign interfaces. By default, the system assigns `em0` as LAN and `em1` as WAN. We need to reassign them to align with our earlier configuration.
 
@@ -114,16 +119,10 @@ Now we are going to assign interfaces. By default, the system assigns `em0` as L
 
 ![22](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/5aaa3f5a-1da2-4bbe-a753-1a5fcb9c9c84)
 
-22. Power off OPNsense, go to Settings, navigate to System and Storage, and remove the OPNsense DVD to ensures the system will boot from the virtual hard disk on the next start.
 
-![remove](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/98d51e5a-030e-4fdc-b58b-44252264deff)
 
-23. Start the OPNsense virtual machine again.
 
 Now we can access the OPNsense web interface from another device on the same network using the LAN IP address. Before that I Configure Kali Linux to Connect to OPNsense Firewall.
-Ensure your Kali Linux VM in VirtualBox has two network adapters configured:
-   - **Adapter 1:** Set to NAT(for internet access).
-   - **Adapter 2:** Set to Internal Network (same as OPNsense's LAN interface).
 
 ## Connecting Kali Linux to OPNsense Firewall
 
