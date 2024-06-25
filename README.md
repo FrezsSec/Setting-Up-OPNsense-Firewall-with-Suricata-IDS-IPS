@@ -45,44 +45,60 @@ I'll be using VirtualBox as it is a great free alternative for virtualization.
 
 8. Then click next and finish.
 
-   ![3](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/b07294d1-359d-468e-9942-4d7449b144d1)
+ ![3](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/b07294d1-359d-468e-9942-4d7449b144d1)
 
 
-8. Navigate to the "Network" settings to set up our adapters. For OPNsense to work correctly, we need to have at least two interfaces on the firewall: one for WAN (connected to the internet) and the other for LAN.
+8. After creating the VM, Navigate to the "Network" settings to set up our adapters. For OPNsense to work correctly, we need to have at least two interfaces on the firewall: one for WAN (connected to the internet) and the other for LAN. I also added an additional processor in the system settings.
 
     - I set up **Adapter 1** to `NAT`, so Adapter 1 is going to be our WAN.
     - I set up **Adapter 2** to `Internal Network` for the LAN interface.
 
+![4](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/86c69c4c-f785-4f38-a6a8-76587cfbcec6)
 
-9. Start the virtual machine and select the OPNsense ISO as the boot media.
+![5](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/c2c21187-935e-45ff-95b1-05ec38a53cce)
 
-10. When the OPNsense boot menu appears, select "Boot Multi User" and press `Enter`.
+9. Start the virtual machine. After the setup is complete, you will be prompted with the login screen. Log in with the username `installer` and password `opnsense`.
 
-11. Log in with the username `installer` and password `opnsense`.
+![8](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/7bafd271-16b2-4b3b-87a3-dbb9d15e03f8)
 
-12. Select "Install (ZFS)" for the installation type.
+10. Continue with the default key map.
 
-13. Choose the virtual hard disk for installation and confirm.
+ ![9](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/5c4ca734-dad2-47f8-a2b9-97809e79f3b7)
 
-14. Select "stripe" for the ZFS configuration.
+11. Choose Install (UFS)
 
-15. Wait for the installation to complete, then remove the ISO and reboot the virtual machine.
+![10](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/a23acaff-f4ba-40f2-8148-df30c0aa42dc)
 
-16. After rebooting, OPNsense will start and display the console menu.
+12. Choose virtual disck(ada0) and hit enter.
 
-17. Use option 1 to assign interfaces:
+![11](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/b7f036fe-a5b6-4338-b079-1ba2ff75cc43)
+
+13. Select `YES` and press `Enter`.
+
+
+![12](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/efe4d3e2-2cdf-43f8-9976-8e35b13544a9)
+
+
+14. Once the installation is complete, it will ask you if you would like to set up your own root password. In my case, I will set it up.
+
+![13](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/2f1c5926-a909-4a6a-94f5-5e213ffd89a3)
+
+
+18. After rebooting, OPNsense will start and display the console menu.
+
+19. Use option 1 to assign interfaces:
     - `em0` for WAN
     - `em1` for LAN
 
-18. Use option 2 to set the LAN IP address (default is `192.168.1.1`).
+20. Use option 2 to set the LAN IP address (default is `192.168.1.1`).
 
-19. Access the OPNsense web interface from another device on the same network using the LAN IP address.
+21. Access the OPNsense web interface from another device on the same network using the LAN IP address.
 
-20. Log in to the web interface with the default credentials:
+22. Log in to the web interface with the default credentials:
     - **Username**: `root`
     - **Password**: `opnsense`
 
-21. Complete the initial setup wizard to configure basic settings.
+23. Complete the initial setup wizard to configure basic settings.
 
 > Remember to adjust network settings and allocate resources based on your specific needs and available system resources.
 
