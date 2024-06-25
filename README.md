@@ -39,7 +39,7 @@ I'll be using VirtualBox as it is a great free alternative for virtualization.
    
 ![Capture](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/cc723f1d-797a-46e5-b952-0d8ee27c2d5a)
 
-7. I created a virtual hard disk with 40GB of space. You can check the required resources on the [Hardware Sizing & Setup page](https://docs.opnsense.org/manual/hardware.html) on the OPNsense website.
+7. I created a virtual hard disk with 8GB of space. You can check the required resources on the [Hardware Sizing & Setup page](https://docs.opnsense.org/manual/hardware.html) on the OPNsense website.
 
 ![2](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/f2b5dda0-72e9-4ec6-adea-0bff9de9e77a)
 
@@ -114,6 +114,11 @@ Now we are going to assign interfaces. By default, the system assigns `em0` as L
 
 ![22](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/5aaa3f5a-1da2-4bbe-a753-1a5fcb9c9c84)
 
+22. Power off OPNsense, go to Settings, navigate to System and Storage, and remove the OPNsense DVD to ensures the system will boot from the virtual hard disk on the next start.
+
+![remove](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/98d51e5a-030e-4fdc-b58b-44252264deff)
+
+23. Start the OPNsense virtual machine again.
 
 Now we can access the OPNsense web interface from another device on the same network using the LAN IP address. Before that I Configure Kali Linux to Connect to OPNsense Firewall.
 Ensure your Kali Linux VM in VirtualBox has two network adapters configured:
@@ -164,7 +169,7 @@ Ensure your Kali Linux VM in VirtualBox has two network adapters configured:
      ```
      Replace `10.50.50.254` with the IP address of your OPNsense LAN interface to verify connectivity.
 
-## Configuring OPNsense Firewall
+## Configuring OPNsense Firewall via web interface
 
 1. Access the OPNsense web interface from kali browser using http://10.50.50.254.
    
@@ -172,21 +177,19 @@ Ensure your Kali Linux VM in VirtualBox has two network adapters configured:
 
 ![24](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/8fd77df5-768c-42f2-8067-e21315719e57)
 
-4. Follow the OPNsense setup wizard to configure firewall rules, DHCP settings, and any other required configurations.
-
-5. Save your changes and apply them to activate the firewall rules and settings.
-
-6. Test connectivity and ensure all configurations are working as expected.
-
-7. Optionally, explore additional features and configurations based on your network requirements.
+3. To optimize OPNsense for better performance in VirtualBox, Navigate to the "System" tab and select "Firmware" from the dropdown menu. Check for updates by clicking on "Check for Updates" or a similar option, which will automatically search for available updates, including the VirtualBox Extension if applicable.
 
 
+![25](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/589d7be2-374a-4878-881f-3117d8631ade)
 
+   
+5. Follow the OPNsense setup wizard to configure firewall rules, DHCP settings, and any other required configurations.
 
+6. Save your changes and apply them to activate the firewall rules and settings.
 
+7. Test connectivity and ensure all configurations are working as expected.
 
-
-
+8. Optionally, explore additional features and configurations based on your network requirements.
 
 
 
@@ -230,13 +233,14 @@ Ensure your Kali Linux VM in VirtualBox has two network adapters configured:
 
 
 
-22. Log in to the web interface with the default credentials:
-    - **Username**: `root`
-    - **Password**: `opnsense`
 
-23. Complete the initial setup wizard to configure basic settings.
 
-> Remember to adjust network settings and allocate resources based on your specific needs and available system resources.
+
+
+
+
+
+
 
 
 
