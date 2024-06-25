@@ -17,8 +17,6 @@ In this project, I will set up a secure network lab to practice and demonstrate 
 
 ![Network diagram example](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/4918b9c5-8d51-4d47-8d83-02d9d91c9843)
 
-![Network Topology](URL_TO_YOUR_IMAGE)
-
 ## Guide
 
 ### Selecting and Downloading a Hypervisor
@@ -31,49 +29,60 @@ I'll be using VirtualBox as it is a great free alternative for virtualization.
 
 ## Instructions to Install OPNsense on VirtualBox
 
-1. Download the latest OPNsense ISO image from the [official website](https://opnsense.org).
+1. Download the latest OPNsense ISO image from the [official website](https://opnsense.org/download/). Under "System architecture," select "amd64" for 64-bit systems. For "Image type," choose "dvd". Scroll down to the "Mirrors" section and select a download location nearest to you. After downloading, verify the integrity of the file by comparing its SHA256 checksum with the one provided on the download page.
 
 2. Open VirtualBox and click "New" to create a new virtual machine.
+3. Browse the OPNssense CE ISO file and select Next
+4. Name your VM (e.g., "OPNsense Firewall"), select `BSD` as the type, and `FreeBSD (64-bit)` as the version.
 
-3. Name your VM (e.g., "OPNsense Firewall"), select `BSD` as the type, and `FreeBSD (64-bit)` as the version.
+5. I allocated 2GB of RAM to the virtual machine. If you have limited resources, you can allocate less. You can check the required resources on the [Hardware Sizing & Setup page](https://docs.opnsense.org/manual/hardware.html) on the OPNsense website..
+   
+![Capture](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/cc723f1d-797a-46e5-b952-0d8ee27c2d5a)
 
-4. Allocate at least 1GB of RAM (4GB recommended) to the virtual machine.
+7. I created a virtual hard disk with 40GB of space. You can check the required resources on the [Hardware Sizing & Setup page](https://docs.opnsense.org/manual/hardware.html) on the OPNsense website.
 
-5. Create a virtual hard disk with at least 20GB of space.
+![2](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/f2b5dda0-72e9-4ec6-adea-0bff9de9e77a)
 
-6. Configure network adapters:
-    - **Adapter 1**: Set as `Bridged Adapter` for WAN interface.
-    - **Adapter 2**: Set as `Internal Network` for LAN interface.
+8. Then click next and finish.
 
-7. Start the virtual machine and select the OPNsense ISO as the boot media.
+   ![3](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/b07294d1-359d-468e-9942-4d7449b144d1)
 
-8. When the OPNsense boot menu appears, select "Boot Multi User" and press `Enter`.
 
-9. Log in with the username `installer` and password `opnsense`.
+8. Navigate to the "Network" settings to set up our adapters. For OPNsense to work correctly, we need to have at least two interfaces on the firewall: one for WAN (connected to the internet) and the other for LAN.
 
-10. Select "Install (ZFS)" for the installation type.
+    - I set up **Adapter 1** to `NAT`, so Adapter 1 is going to be our WAN.
+    - I set up **Adapter 2** to `Internal Network` for the LAN interface.
 
-11. Choose the virtual hard disk for installation and confirm.
 
-12. Select "stripe" for the ZFS configuration.
+9. Start the virtual machine and select the OPNsense ISO as the boot media.
 
-13. Wait for the installation to complete, then remove the ISO and reboot the virtual machine.
+10. When the OPNsense boot menu appears, select "Boot Multi User" and press `Enter`.
 
-14. After rebooting, OPNsense will start and display the console menu.
+11. Log in with the username `installer` and password `opnsense`.
 
-15. Use option 1 to assign interfaces:
+12. Select "Install (ZFS)" for the installation type.
+
+13. Choose the virtual hard disk for installation and confirm.
+
+14. Select "stripe" for the ZFS configuration.
+
+15. Wait for the installation to complete, then remove the ISO and reboot the virtual machine.
+
+16. After rebooting, OPNsense will start and display the console menu.
+
+17. Use option 1 to assign interfaces:
     - `em0` for WAN
     - `em1` for LAN
 
-16. Use option 2 to set the LAN IP address (default is `192.168.1.1`).
+18. Use option 2 to set the LAN IP address (default is `192.168.1.1`).
 
-17. Access the OPNsense web interface from another device on the same network using the LAN IP address.
+19. Access the OPNsense web interface from another device on the same network using the LAN IP address.
 
-18. Log in to the web interface with the default credentials:
+20. Log in to the web interface with the default credentials:
     - **Username**: `root`
     - **Password**: `opnsense`
 
-19. Complete the initial setup wizard to configure basic settings.
+21. Complete the initial setup wizard to configure basic settings.
 
 > Remember to adjust network settings and allocate resources based on your specific needs and available system resources.
 
