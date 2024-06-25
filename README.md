@@ -93,14 +93,142 @@ I'll be using VirtualBox as it is a great free alternative for virtualization.
 
 ![16](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/17a071d3-f761-40e6-922d-cf282635a815)
 
+Now we are going to assign interfaces. By default, the system assigns `em0` as LAN and `em1` as WAN. We need to reassign them to align with our earlier configuration.
 
 19. Use option 1 to assign interfaces:
     - `em0` for WAN
     - `em1` for LAN
 
-20. Use option 2 to set the LAN IP address (default is `192.168.1.1`).
+![18](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/529f4f85-b9d9-4933-8688-1e048c9d3166)
 
-21. Access the OPNsense web interface from another device on the same network using the LAN IP address.
+
+      
+20. Next, we are going to choose IP addresses for each interface. Select option 2. In my lab, I will assign 10.50.50.254 with subnet mask 255.255.255.0 (subnet 24) to the LAN interface.
+
+![19](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/5f79b677-9b12-4889-a3b3-f4aa470c9d3d)
+
+
+![20](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/54428977-3d0c-4184-a0f8-22730803952b)
+
+21. The WAN interface will automatically obtain an IP address from DHCP.
+
+![22](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/5aaa3f5a-1da2-4bbe-a753-1a5fcb9c9c84)
+
+
+Now we can access the OPNsense web interface from another device on the same network using the LAN IP address. Before that I Configure Kali Linux to Connect to OPNsense Firewall.
+Ensure your Kali Linux VM in VirtualBox has two network adapters configured:
+   - **Adapter 1:** Set to NAT(for internet access).
+   - **Adapter 2:** Set to Internal Network (same as OPNsense's LAN interface).
+
+## Connecting Kali Linux to OPNsense Firewall
+
+1. Now, configure your Kali Linux VM to connect to the OPNsense firewall's LAN interface:
+
+   - Ensure your Kali Linux VM has two network adapters:
+     - **Adapter 1:** Set to NAT or Bridged (for internet access).
+     - **Adapter 2:** Set to Internal Network (same as OPNsense's LAN interface).
+
+   - Boot up your Kali Linux VM.
+
+   - Open a terminal and check your network interfaces:
+     ```bash
+     ip a
+     ```
+     You should see `eth0` and `eth1` (or similar names).
+
+   - Edit the network configuration file:
+     ```bash
+     sudo nano /etc/network/interfaces
+     ```
+     
+     Add the following configuration for `eth1` (adjust the IP address as needed):
+     ```plaintext
+     auto eth1
+     iface eth1 inet static
+     address 10.50.50.100
+     netmask 255.255.255.0
+     gateway 10.50.50.254
+     ```
+     Ensure the IP address (`10.50.50.100` in this example) is within the LAN subnet of your OPNsense firewall and the gateway (`10.50.50.254`) is set to OPNsense's LAN IP.
+
+   - Save the file and exit the editor.
+
+   - Restart the networking service:
+     ```bash
+     sudo systemctl restart networking
+     ```
+
+   - Verify the connection:
+     ```bash
+     ping 10.50.50.254
+     ```
+     Replace `10.50.50.254` with the IP address of your OPNsense LAN interface to verify connectivity.
+
+## Configuring OPNsense Firewall
+
+1. Access the OPNsense web interface from kali browser using http://10.50.50.254.
+   
+2. Log in with the credentials (username: `root`, password: `the password set up earlier`).
+
+![24](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/8fd77df5-768c-42f2-8067-e21315719e57)
+
+4. Follow the OPNsense setup wizard to configure firewall rules, DHCP settings, and any other required configurations.
+
+5. Save your changes and apply them to activate the firewall rules and settings.
+
+6. Test connectivity and ensure all configurations are working as expected.
+
+7. Optionally, explore additional features and configurations based on your network requirements.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 22. Log in to the web interface with the default credentials:
     - **Username**: `root`
