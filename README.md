@@ -181,14 +181,41 @@ Now we can access the OPNsense web interface from another device on the same net
 
 ![25](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/589d7be2-374a-4878-881f-3117d8631ade)
 
-   
-5. Follow the OPNsense setup wizard to configure firewall rules, DHCP settings, and any other required configurations.
+4. Then, check the "Updates" tab. You will see a list of packages that need to be upgraded. Click "Update" to upgrade all the listed packages.
 
-6. Save your changes and apply them to activate the firewall rules and settings.
+![28](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/d2b8e709-a1a6-431c-b0c4-3ac452fd9a18)
 
-7. Test connectivity and ensure all configurations are working as expected.
+ ![30](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/bf8ec1fa-ea46-46e5-b771-ddbc584c0acc)
 
-8. Optionally, explore additional features and configurations based on your network requirements.
+5. Now, in the "Plugins" tab, scroll down to find "os-virtualbox" and install it.
+
+![27](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/50dee26e-e49a-4dc6-a40b-4c252a4ac90a)
+
+7. Follow the OPNsense setup wizard to configure firewall rules, DHCP settings, and any other required configurations.
+
+8. Save your changes and apply them to activate the firewall rules and settings.
+
+## Configuring IPS (Intrusion Prevention System) on OPNsense
+
+### Instructions
+
+1. Log in to the OPNsense dashboard.
+2. Navigate to "Interfaces" and then "Settings".
+3. Make sure the offloading features are disbaled to ensure proper operation of the IPS.
+
+![31](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/59f35dba-198a-4e7f-a25d-5177040604a9)
+
+5. Go to "Services" > "Intrusion Detection".
+6. Click on "Administration" and select "Advanced Mode".
+7. Enable Intrusion Detection by toggling the "Enable" button.
+8. Enable IPS mode and promiscuous mode for enhanced detection capabilities.
+9. Enable syslog alerts for logging purposes.
+10. Select "Hyperscan" under "Pattern Matcher" for modern pattern matching capabilities.
+11. Apply these settings to the LAN interface (and optionally to the WAN interface).
+12. Enter your LAN subnet in the "Home Network" field.
+13. Click "Apply" to save the configuration.
+14. Navigate to the "Download" tab within the Intrusion Detection settings.
+15. Download additional rule sets as needed to enhance detection accuracy and coverage.
 
 
 
