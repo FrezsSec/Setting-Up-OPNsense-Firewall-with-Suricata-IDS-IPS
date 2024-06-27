@@ -232,15 +232,15 @@ I have created custom rules for Suricata that will be applied in this lab. OPNse
 
 ![35](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/63bc3abc-6821-4297-9d5d-0e1297bfa679)
 
-3. Alongside the `mycustom.rules` file, create a new document named `mycustom.xml` in the samw folder with the following content:
+3. Alongside the `custom-suricata-rules.rules` file, create a new document named `custom-suricata-rules.xml` in the same folder with the following content:
 
-```xml
+```
 <?xml version="1.0"?>
 <ruleset documentation_url="http://docs.opnsense.org/">
-  <location url="http://10.50.50.100/" prefix="customnmap" />
+  <location url="http://10.50.50.100/" prefix="custom-suricata-rules" />
   <files>
-    <file description="customnmap rules">customnmap.rules</file>
-    <file description="customnmap" url="inline::rules/customnmap.rules">customnmap.rules</file>
+    <file description="Custom Suricata Rules">custom-suricata-rules.rules</file>
+    <file description="Custom Suricata Rules" url="inline::rules/custom-suricata-rules.rules">custom-suricata-rules.rules</file>
   </files>
 </ruleset>
 ```
@@ -248,8 +248,11 @@ This XML file is designed to locate our mycustom.rule file. Next, we will transf
 ```
 sudo apt-get install filezilla
 ```
+4. Run FileZilla, enter the host IP address(sftp://10.50.50.254), username, password, and port, then click on "Quickconnect".
 
+![36](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/45983d5d-f53e-415b-8482-5ad56e5e0a95)
 
+Now we have access to the Opnsense root directory. on the Opnsense firewall we are gonna navigate to usr -> local > opnsesne > scripts > suricata >metadata >rules you see afew xml file that already exist. we are gonna transfer our custom-suricata-rules.xml by dragging it
 
 
 
