@@ -1,10 +1,6 @@
-# Network Security Lab Setup
+# Setting Up OPNsense Firewall with Suricata IDS/IPS
 
-Network Security Lab Setup with a Firewall, IDS/IPS, Exploitable machines, and an Attacker.
-
-## Introduction
-
-In this project, I will set up a secure network lab to practice and demonstrate various network security concepts and configurations. The lab will include an attack machine (Kali Linux), a vulnerable target (Metasploitable 2), and a pfSense firewall with IDS/IPS capabilities.
+I successfully set up and configured an OPNsense firewall in VirtualBox, integrating Suricata as the Intrusion Prevention System (IPS) and Intrusion Detection System (IDS). This lab project also involved configuring custom rules to detect stealth scans such as SYN scan, XMAS scan, and NULL scan attacks, as well as FTP brute force and SSH brute force attacks. The setup included a network environment comprising OPNsense as the firewall, Kali Linux for security testing, and Metasploitable 2 as a vulnerable machine. The project aimed to validate the effectiveness of our detection system by ensuring timely and accurate alerts.
 
 ## Tools
 
@@ -195,7 +191,7 @@ Now we can access the OPNsense web interface from another device on the same net
 
 8. Save your changes and apply them to activate the firewall rules and settings.
 
-## Configuring IPS (Intrusion Prevention System) on OPNsense
+## Configuring IPS/IDS on OPNsense
 
 ### Instructions
 
@@ -205,29 +201,53 @@ Now we can access the OPNsense web interface from another device on the same net
 
 ![31](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/59f35dba-198a-4e7f-a25d-5177040604a9)
 
-5. Go to "Services" > "Intrusion Detection".
-6. Click on "Administration" and select "Advanced Mode".
-7. Enable Intrusion Detection by toggling the "Enable" button.
-8. Enable IPS mode and promiscuous mode for enhanced detection capabilities.
-9. Enable syslog alerts for logging purposes.
-10. Select "Hyperscan" under "Pattern Matcher" for modern pattern matching capabilities.
-11. Apply these settings to the LAN interface (and optionally to the WAN interface).
-12. Enter your LAN subnet in the "Home Network" field.
-13. Click "Apply" to save the configuration.
-14. Navigate to the "Download" tab within the Intrusion Detection settings.
-15. Download additional rule sets as needed to enhance detection accuracy and coverage.
+4. Next, Go to "Services" > "Intrusion Detection". Click on "Administration" and select "Advanced Mode".
+5. Enable Intrusion Detection by toggling the "Enable" button.
+6. Enable IPS mode and promiscuous mode for enhanced detection capabilities.
+7. Enable syslog alerts for logging purposes.
+8. Select "Hyperscan" under "Pattern Matcher" for modern pattern matching capabilities.
+9. Apply these settings to the LAN interface (and optionally to the WAN interface).
+10. Enter your LAN subnet in the "Home Network" field.
+11. Click "Apply" to save the configuration.
 
+![32](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/dd8d96d8-97ee-4edd-b09a-c1ef71d8deef)
 
+### Downloading Rule Sets
 
+1. Navigate to the Download Tab for the next part of the setup. within the download tab, you can grab some free rule sets to get started. However, it's important to know these free sets aren't ideal for standalone use. They might not be updated as often as some paid, more professional options.
 
+![33](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/473e10bb-76b4-4660-b64a-93d737d23d9a)
 
+2. Selecting and Downloading Rule Sets. Choose the rule sets you wish to use and click "Download" to add them to your OPNsense configuration. Ensure that the selected rule sets align with your security requirements and network environment.
 
+### Adding Custom Rules for IDS/IPS on OPNsense
+I have created custom rules for Suricata that will be applied in this lab. OPNsense IDS/IPS utilizes Suricata. These custom rules are designed to detect Nmap SYN scans, Xmas scans, Fin scans, SSH brute-force attacks, and FTP brute-force attacks. To test these rules, I will use Nmap, a port scanning tool, and Hydra for performing brute-force attacks on Metasploitable2.
 
+![34](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/6fccb453-5006-4142-9e6a-b33dcdf4e2c4)
 
+ To add custom Suricata rules to OPNsense, you can follow these steps:
 
+1. Access OPNsense Web Interface. Log in to the OPNsense web interface using your administrator credentials.
+2. Navigate to System > Settings > Administration. Enable Secure Shell, permit root user login (not recommended for production environment), allow password authentication, and set the SSH listening interface to LAN. Save the changes to apply the SSH configuration.
 
+![35](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/63bc3abc-6821-4297-9d5d-0e1297bfa679)
 
+3. Alongside the `mycustom.rules` file, create a new document named `mycustom.xml` in the samw folder with the following content:
 
+```xml
+<?xml version="1.0"?>
+<ruleset documentation_url="http://docs.opnsense.org/">
+  <location url="http://10.50.50.100/" prefix="customnmap" />
+  <files>
+    <file description="customnmap rules">customnmap.rules</file>
+    <file description="customnmap" url="inline::rules/customnmap.rules">customnmap.rules</file>
+  </files>
+</ruleset>
+```
+This XML file is designed to locate our mycustom.rule file. Next, we will transfer our .xml file using FileZilla. To install FileZilla, you can use the following command:
+```
+sudo apt-get install filezilla
+```
 
 
 
@@ -270,50 +290,18 @@ Now we can access the OPNsense web interface from another device on the same net
 
 
 
-### Installing and Configuring the IDS - Security Onion
 
-Security Onion is an open-source IDS, Security Monitoring, and Log Management solution.
 
-- [Security Onion Download](https://securityonion.net/)
 
-Follow these steps to install and configure Security Onion:
 
-1. Open VirtualBox and create a new VM.
-2. Browse and select the Security Onion ISO file.
-3. Choose Linux in Guest Operating System and CentOS 7 64-bit.
-4. Name the VM "SecurityOnion".
-5. Specify disk size (minimum 200GB) and store it as a single file.
-6. Customize hardware: Increase Processor to 2, change memory to 8GB, and add 2 Network Adapters (assign them to VMnet4 & VMnet5).
 
-After creating the VM:
 
-1. Boot the 'SecurityOnion' VM and follow the on-screen instructions.
-2. Set up an administrator account and proceed with the standard installation.
-3. Configure the management interface and monitor interface as per your network design.
-4. Complete the installation and note the Web Interface IP address.
 
-To access the Security Onion Interface from the Kali machine:
 
-1. Run the command `sudo so-allow` on Security Onion.
-2. Add the Kali machine IP address to allow access to the Web Interface.
 
-### Configuring Kali Linux Machine
 
-Kali Linux will be used as an attack machine to perform reconnaissance and exploitation against the Metasploitable 2 and pfSense firewall.
 
-- [Kali Linux Download](https://www.kali.org/get-kali/)
-- [Kali Linux Installation Guide on VirtualBox](https://www.kali.org/docs/virtualization/install-virtualbox-guest-vm/)
 
-After installing Kali Linux as a new VM in VirtualBox, configure the network adapter and memory as required.
 
-### Configuring Metasploitable 2 Machine
 
-Metasploitable 2 is a vulnerable machine used as the target for attacks.
 
-- [Metasploitable 2 Download](https://sourceforge.net/projects/metasploitable/)
-
-Follow the installation guide to set up Metasploitable 2 on VirtualBox.
-
-## Conclusion
-
-This Network Security Lab will provide a hands-on environment to learn and practice network security configurations, attack methods, and defense strategies. As you proceed with each component, document the steps and configurations to create a comprehensive guide for future reference.
