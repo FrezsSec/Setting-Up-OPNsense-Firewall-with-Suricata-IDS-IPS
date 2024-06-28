@@ -36,7 +36,7 @@ I'll be using VirtualBox, a robust free virtualization alternative.
    
 ![Capture](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/cc723f1d-797a-46e5-b952-0d8ee27c2d5a)
 
-6. I created a virtual hard disk with 8GB of space. You can check the required resources on the [Hardware Sizing & Setup page](https://docs.opnsense.org/manual/hardware.html) on the OPNsense website.
+6. Create a virtual hard disk with 8GB of space, or as per your requirements.
 
 ![2](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/f2b5dda0-72e9-4ec6-adea-0bff9de9e77a)
 
@@ -45,10 +45,10 @@ I'll be using VirtualBox, a robust free virtualization alternative.
  ![3](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/b07294d1-359d-468e-9942-4d7449b144d1)
 
 
-8. After creating the VM, Navigate to the "Network" settings to set up our adapters. For OPNsense to work correctly, we need to have at least two interfaces on the firewall: one for WAN (connected to the internet) and the other for LAN. I also added an additional processor in the system settings.
+8. After creating the VM, Navigate to the "Network" settings to set up our adapters. For OPNsense to work correctly, we need to have at least two interfaces on the firewall: one for WAN (connected to the internet) and the other for LAN. 
 
-    - I set up **Adapter 1** to `NAT`, so Adapter 1 is going to be our WAN.
-    - I set up **Adapter 2** to `Internal Network` for the LAN interface.
+    - set up **Adapter 1** to `NAT`, so Adapter 1 is going to be our WAN.
+    - set up **Adapter 2** to `Internal Network` for the LAN interface.
 
 ![4](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/86c69c4c-f785-4f38-a6a8-76587cfbcec6)
 
@@ -62,21 +62,21 @@ I'll be using VirtualBox, a robust free virtualization alternative.
 
  ![9](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/5c4ca734-dad2-47f8-a2b9-97809e79f3b7)
 
-11. Choose Install (UFS)
+11. Select Install (UFS)
 
 ![10](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/a23acaff-f4ba-40f2-8148-df30c0aa42dc)
 
-12. Choose virtual disck(ada0) and hit enter.
+12. Choose the virtual disck(ada0) and hit enter.
 
 ![11](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/b7f036fe-a5b6-4338-b079-1ba2ff75cc43)
 
-13. Select `YES` and press `Enter`.
+13. Confirm with `YES` and continue..
 
 
 ![12](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/efe4d3e2-2cdf-43f8-9976-8e35b13544a9)
 
 
-14. Once the installation is complete, it will ask you if you would like to set up your own root password. In my case, I will set it up.
+14. Once installation completes, set your root password as prompted.
 
 ![13](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/2f1c5926-a909-4a6a-94f5-5e213ffd89a3)
 
@@ -92,7 +92,7 @@ I'll be using VirtualBox, a robust free virtualization alternative.
 
 17. Start the OPNsense virtual machine again, proceed to log in.
 
-![16](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/17a071d3-f761-40e6-922d-cf282635a815)
+![7](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/b7673284-45f2-4636-bde3-1c2f436dc7ee)
 
 
 Now we are going to assign interfaces. By default, the system assigns `em0` as LAN and `em1` as WAN. We need to reassign them to align with our earlier configuration.
@@ -105,7 +105,7 @@ Now we are going to assign interfaces. By default, the system assigns `em0` as L
 
 
       
-19. Next, we are going to choose IP addresses for each interface. Select option 2. In my lab, I will assign 10.50.50.254 with subnet mask 255.255.255.0 (subnet 24) to the LAN interface.
+19. Next, we are going to choose IP addresses for each interface. Select option 2. In my lab, I assigned 10.50.50.254 with subnet mask 255.255.255.0 (subnet 24) to the LAN interface.
 
 ![19](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/5f79b677-9b12-4889-a3b3-f4aa470c9d3d)
 
@@ -115,8 +115,6 @@ Now we are going to assign interfaces. By default, the system assigns `em0` as L
 20. The WAN interface will automatically obtain an IP address from DHCP.
 
 ![22](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/5aaa3f5a-1da2-4bbe-a753-1a5fcb9c9c84)
-
-
 
 
 Now we can access the OPNsense web interface from another device on the same network using the LAN IP address. Before that I Configure Kali Linux to Connect to OPNsense Firewall.
