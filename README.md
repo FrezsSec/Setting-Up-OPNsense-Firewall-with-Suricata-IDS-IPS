@@ -1,6 +1,6 @@
 # Setting Up OPNsense Firewall with Suricata IDS/IPS
 
-I successfully set up and configured an OPNsense firewall in VirtualBox, integrating Suricata as the Intrusion Prevention System (IPS) and Intrusion Detection System (IDS). This lab project also involved configuring custom rules to detect stealth scans such as SYN scan, XMAS scan, and NULL scan attacks, as well as FTP brute force and SSH brute force attacks. The setup included a network environment comprising OPNsense as the firewall, Kali Linux for security testing, and Metasploitable 2 as a vulnerable machine. The project aimed to validate the effectiveness of our detection system by ensuring timely and accurate alerts.
+I successfully set up and configured an OPNsense firewall in VirtualBox, integrating Suricata as the Intrusion Prevention System (IPS) and Intrusion Detection System (IDS). This lab project also involved configuring custom rules to detect stealth scans. The setup included a network environment comprising OPNsense as the firewall, Kali Linux for security testing, and Metasploitable 2 as a vulnerable machine. The project aimed to validate the effectiveness of our detection system by ensuring timely and accurate alerts.
 
 ## Tools
 
@@ -10,6 +10,7 @@ I successfully set up and configured an OPNsense firewall in VirtualBox, integra
 - **Vulnerable Machine**: Metasploitable 2
 
 ## Network Design
+The network diagram depicts a simple setup with OPNsense firewall configured with two interfaces: one WAN (Internet-facing) and one LAN. The LAN includes Kali Linux for conducting security testing and Metasploitable 2 as a vulnerable machine.
 
 ![Network diagram example](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/4918b9c5-8d51-4d47-8d83-02d9d91c9843)
 
@@ -17,9 +18,9 @@ I successfully set up and configured an OPNsense firewall in VirtualBox, integra
 
 ### Selecting and Downloading a Hypervisor
 
-We will need a Hypervisor to install all of our tools and services.
+To install all of our tools and services, a Hypervisor is required.
 
-I'll be using VirtualBox as it is a great free alternative for virtualization.
+I'll be using VirtualBox, a robust free virtualization alternative.
 
 - [VirtualBox Download](https://www.virtualbox.org/)
 
@@ -28,18 +29,18 @@ I'll be using VirtualBox as it is a great free alternative for virtualization.
 1. Download the latest OPNsense ISO image from the [official website](https://opnsense.org/download/). Under "System architecture," select "amd64" for 64-bit systems. For "Image type," choose "dvd". Scroll down to the "Mirrors" section and select a download location nearest to you. After downloading, verify the integrity of the file by comparing its SHA256 checksum with the one provided on the download page.
 
 2. Open VirtualBox and click "New" to create a new virtual machine.
-3. Browse the OPNssense CE ISO file and select Next
+3. Browse the OPNssense CE ISO file and select Next.
 4. Name your VM (e.g., "OPNsense Firewall"), select `BSD` as the type, and `FreeBSD (64-bit)` as the version.
 
-5. I allocated 2GB of RAM to the virtual machine. If you have limited resources, you can allocate less. You can check the required resources on the [Hardware Sizing & Setup page](https://docs.opnsense.org/manual/hardware.html) on the OPNsense website..
+5. Allocate 2GB of RAM to the virtual machine. Adjust based on available resources. Refer to the [Hardware Sizing & Setup page](https://docs.opnsense.org/manual/hardware.html) on the OPNsense website for guidance.
    
 ![Capture](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/cc723f1d-797a-46e5-b952-0d8ee27c2d5a)
 
-7. I created a virtual hard disk with 8GB of space. You can check the required resources on the [Hardware Sizing & Setup page](https://docs.opnsense.org/manual/hardware.html) on the OPNsense website.
+6. I created a virtual hard disk with 8GB of space. You can check the required resources on the [Hardware Sizing & Setup page](https://docs.opnsense.org/manual/hardware.html) on the OPNsense website.
 
 ![2](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/f2b5dda0-72e9-4ec6-adea-0bff9de9e77a)
 
-8. Then click next and finish.
+7. Then click next and finish.
 
  ![3](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/b07294d1-359d-468e-9942-4d7449b144d1)
 
@@ -96,7 +97,7 @@ I'll be using VirtualBox as it is a great free alternative for virtualization.
 
 Now we are going to assign interfaces. By default, the system assigns `em0` as LAN and `em1` as WAN. We need to reassign them to align with our earlier configuration.
 
-19. Use option 1 to assign interfaces:
+18. Use option 1 to assign interfaces:
     - `em0` for WAN
     - `em1` for LAN
 
@@ -104,14 +105,14 @@ Now we are going to assign interfaces. By default, the system assigns `em0` as L
 
 
       
-20. Next, we are going to choose IP addresses for each interface. Select option 2. In my lab, I will assign 10.50.50.254 with subnet mask 255.255.255.0 (subnet 24) to the LAN interface.
+19. Next, we are going to choose IP addresses for each interface. Select option 2. In my lab, I will assign 10.50.50.254 with subnet mask 255.255.255.0 (subnet 24) to the LAN interface.
 
 ![19](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/5f79b677-9b12-4889-a3b3-f4aa470c9d3d)
 
 
 ![20](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/54428977-3d0c-4184-a0f8-22730803952b)
 
-21. The WAN interface will automatically obtain an IP address from DHCP.
+20. The WAN interface will automatically obtain an IP address from DHCP.
 
 ![22](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/5aaa3f5a-1da2-4bbe-a753-1a5fcb9c9c84)
 
@@ -279,7 +280,7 @@ Return to our firewall and refresh the Alerts section.
 
 ![44](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/00aa3ee2-ad8f-4e51-a88b-59ad94f06bab)
 
-
+So to wrap this lab up, I installed and configured an OPNsense firewall on VirtualBox. Next, I set up IDS/IPS based on Suricata on the OPNsense platform. I created a custom rule and added it to the configuration. Then, I conducted a reconnaissance port scan against our OPNsense firewall and observed our custom rule in action, effectively detecting the targeted activity.
 
 
 
