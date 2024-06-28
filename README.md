@@ -253,11 +253,9 @@ sudo apt-get install filezilla
 ```
 4. Open FileZilla and connect to your OPNsense firewall using SFTP (sftp://10.50.50.254), username, password, and port.
 
-![36](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/45983d5d-f53e-415b-8482-5ad56e5e0a95)
-
 5. Transfer the custom-suricata-rules.xml file to the directory: `usr/local/opnsense/scripts/suricata/metadata/rules`.
 
-![37](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/6c137ad2-51c1-4f17-9c12-2d49bb4cab05)
+![22](https://github.com/FrezsSec/Setting-Up-OPNsense-Firewall-with-Suricata-IDS-IPS/assets/173344802/6228e57d-206d-4a6e-b669-6110be93e610)
 
 6. In the directory where your files are stored, set up an HTTP server to deliver the .rules file. This server's purpose is to deliver our .rules file to OPNsense whenever it's requested by the .xml file. To start the server, run:
 
