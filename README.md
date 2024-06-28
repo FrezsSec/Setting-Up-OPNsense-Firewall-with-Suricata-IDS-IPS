@@ -56,7 +56,8 @@ I'll be using VirtualBox, a robust free virtualization alternative.
 
 9. Start the virtual machine. After the setup is complete, you will be prompted with the login screen. Log in with the username `installer` and password `opnsense`.
 
-![8](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/7bafd271-16b2-4b3b-87a3-dbb9d15e03f8)
+![7](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/2a93fee1-e10d-429e-abe3-bc277756273b)
+
 
 10. Continue with the default key map.
 
@@ -92,7 +93,8 @@ I'll be using VirtualBox, a robust free virtualization alternative.
 
 17. Start the OPNsense virtual machine again, proceed to log in.
 
-![7](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/b7673284-45f2-4636-bde3-1c2f436dc7ee)
+![16](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/e06bf795-5f64-4d0c-a09b-37990dd67222)
+
 
 
 Now we are going to assign interfaces. By default, the system assigns `em0` as LAN and `em1` as WAN. We need to reassign them to align with our earlier configuration.
@@ -114,7 +116,7 @@ Now we are going to assign interfaces. By default, the system assigns `em0` as L
 
 20. The WAN interface will automatically obtain an IP address from DHCP.
 
-![22](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/5aaa3f5a-1da2-4bbe-a753-1a5fcb9c9c84)
+![21](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/1e782a8a-a858-4449-bf25-28f415b6ff51)
 
 
 Now we can access the OPNsense web interface from another device on the same network using the LAN IP address. Before that I Configure Kali Linux to Connect to OPNsense Firewall.
@@ -167,7 +169,7 @@ Now we can access the OPNsense web interface from another device on the same net
 
 1. Access the OPNsense web interface from kali browser using http://10.50.50.254.
    
-2. Log in with the credentials (username: `root`, password: `the password set up earlier`).
+2. Log in with the credentials (username: `root`, password: `[the password you set during installation]`.
 
 ![24](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/8fd77df5-768c-42f2-8067-e21315719e57)
 
@@ -176,7 +178,7 @@ Now we can access the OPNsense web interface from another device on the same net
 
 ![25](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/589d7be2-374a-4878-881f-3117d8631ade)
 
-4. Then, check the "Updates" tab. You will see a list of packages that need to be upgraded. Click "Update" to upgrade all the listed packages.
+4. Go to the "Updates" tab. If there are packages that need to be upgraded, click "Update" to install them.
 
 ![28](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/d2b8e709-a1a6-431c-b0c4-3ac452fd9a18)
 
@@ -186,9 +188,9 @@ Now we can access the OPNsense web interface from another device on the same net
 
 ![27](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/50dee26e-e49a-4dc6-a40b-4c252a4ac90a)
 
-7. Follow the OPNsense setup wizard to configure firewall rules, DHCP settings, and any other required configurations.
+6. Follow the setup wizard prompts to configure firewall rules, DHCP settings, and any other necessary configurations according to your lab requirements.
 
-8. Save your changes and apply them to activate the firewall rules and settings.
+7. Save your changes and apply them to activate the firewall rules and settings.
 
 ## Configuring IPS/IDS on OPNsense
 
@@ -196,7 +198,7 @@ Now we can access the OPNsense web interface from another device on the same net
 
 1. Log in to the OPNsense dashboard.
 2. Navigate to "Interfaces" and then "Settings".
-3. Make sure the offloading features are disbaled to ensure proper operation of the IPS.
+3. Ensure that offloading features are disabled to ensure proper operation of the IPS
 
 ![31](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/59f35dba-198a-4e7f-a25d-5177040604a9)
 
@@ -213,11 +215,11 @@ Now we can access the OPNsense web interface from another device on the same net
 
 ### Downloading Rule Sets
 
-1. Navigate to the Download Tab for the next part of the setup. within the download tab, you can grab some free rule sets to get started. However, it's important to know these free sets aren't ideal for standalone use. They might not be updated as often as some paid, more professional options.
+1. Navigate to the Download Tab for the next part of the setup. Within the "Download" tab, you can access various rule sets to enhance your OPNsense configuration. It's important to note that the free rule sets available may not be as comprehensive or frequently updated as paid options.
 
 ![33](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/473e10bb-76b4-4660-b64a-93d737d23d9a)
 
-2. Selecting and Downloading Rule Sets. Choose the rule sets you wish to use and click "Download" to add them to your OPNsense configuration. Ensure that the selected rule sets align with your security requirements and network environment.
+2. Select the rule sets that best fit your security requirements and network environment. Click "Download" or the appropriate action to add these rule sets to your OPNsense configuration.
 
 ### Adding Custom Rules for IDS/IPS on OPNsense
 Here is a custom rule to detect SYN scans. A SYN scan is a stealthy scan technique used to determine the status of ports on a target system without completing the TCP handshake. This rule can be implemented in Suricata:
