@@ -269,9 +269,15 @@ sudo apt-get install filezilla
 
 ![42](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/afa46c22-0de8-45e5-b497-88245cee13f5)
 
+## Testing
+To assess our firewall's ability to detect intrusion attempts, we will use Nmap. Since we have configured our rule to detect stealth scans, we can perform a scan and verify if the system alerts us to this activity. Run:
+``` sudo nmap -Pn -sS -p- 10.50.50.20 ```
 
+![45](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/1b474e0e-c124-432e-a0de-3302852a179a)
 
+Return to our firewall and refresh the Alerts section.
 
+![44](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/00aa3ee2-ad8f-4e51-a88b-59ad94f06bab)
 
 
 
