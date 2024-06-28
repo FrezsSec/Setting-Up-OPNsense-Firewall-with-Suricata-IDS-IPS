@@ -198,7 +198,7 @@ Now we can access the OPNsense web interface from another device on the same net
 
 1. Log in to the OPNsense dashboard.
 2. Navigate to "Interfaces" and then "Settings".
-3. Ensure that offloading features are disabled to ensure proper operation of the IPS
+3. Ensure that offloading features are disabled to ensure proper operation of the IPS.
 
 ![31](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/59f35dba-198a-4e7f-a25d-5177040604a9)
 
@@ -223,6 +223,7 @@ Now we can access the OPNsense web interface from another device on the same net
 
 ### Adding Custom Rules for IDS/IPS on OPNsense
 Here is a custom rule to detect SYN scans using Suricata:
+
 ```alert tcp any any -> $HOME_NET any (msg:"Possible Nmap SYN Scan"; flow:stateless; flags:S; threshold:type limit, track by_src, count 50, seconds 1; priority:5; classtype:attempted-recon; sid:101; rev:4;)```
 
 
@@ -245,7 +246,7 @@ Here is a custom rule to detect SYN scans using Suricata:
   </files>
 </ruleset>
 ```
-This XML file is designed to locate our mycustom.rule file. Next, we will transfer our .xml file using FileZilla. To install FileZilla, you can use the following command:
+This XML file is designed to locate our `custom-suricata-rules.rules` file on our Kali Linux virtual machine. Next, we will transfer our .xml file using FileZilla. To install FileZilla, you can use the following command:
 ```
 sudo apt-get install filezilla
 ```
@@ -258,11 +259,12 @@ sudo apt-get install filezilla
 ![37](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/6c137ad2-51c1-4f17-9c12-2d49bb4cab05)
 
 6. In the directory where your files are stored, set up an HTTP server to deliver the .rules file. This server's purpose is to deliver our .rules file to OPNsense whenever it's requested by the .xml file. To start the server, run:
+
 ``` python3 -m http.server 80 ```
 
 ![38](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/8af92f5f-b3f5-4ae6-a064-8577e5eb2414)
 
-7. Navigate to "Services" -> "Intrusion Detection" -> "Administration" -> "Download". At the top, click on "Restart Service" to apply changes. After restarting, find the section for `custom-suricata-rules/Custom Suricata Rules rules`, select it, and click Enable Selected. Click Download & Update Rules to ensure the custom rules are updated and activated.
+7. Navigate to "Services" -> "Intrusion Detection" -> "Administration" -> "Download" on OPNsense web interface. At the top, click on "Restart Service" to apply changes. After restarting, find the section for `custom-suricata-rules/Custom Suricata Rules rules`, select it, and click Enable Selected. Click Download & Update Rules to ensure the custom rules are updated and activated.
 
 ![41](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/28e71fa2-8465-4c7a-8ea5-4ce0ba37b7d1)
 
@@ -273,6 +275,7 @@ sudo apt-get install filezilla
 ## Testing
 To assess our firewall's ability to detect intrusion attempts, we will use Nmap. Since we have configured our rule to detect stealth scans, we can perform a scan and verify if the system alerts us to this activity.
 Open a terminal on your Kali Linux VM. Run the following command to perform a stealth SYN scan:
+
 ``` sudo nmap -Pn -sS -p- 10.50.50.20 ```
 
 Replace `[IP_ADDRESS]` with the IP address of the device you are scanning. This should be an IP address on your network that the OPNsense firewall is protecting.
