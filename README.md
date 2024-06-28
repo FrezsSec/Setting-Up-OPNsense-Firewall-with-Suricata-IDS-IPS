@@ -222,11 +222,11 @@ Now we can access the OPNsense web interface from another device on the same net
 2. Select the rule sets that best fit your security requirements and network environment. Click "Download" or the appropriate action to add these rule sets to your OPNsense configuration.
 
 ### Adding Custom Rules for IDS/IPS on OPNsense
-Here is a custom rule to detect SYN scans. A SYN scan is a stealthy scan technique used to determine the status of ports on a target system without completing the TCP handshake. This rule can be implemented in Suricata:
+Here is a custom rule to detect SYN scans using Suricata:
 ```alert tcp any any -> $HOME_NET any (msg:"Possible Nmap SYN Scan"; flow:stateless; flags:S; threshold:type limit, track by_src, count 50, seconds 1; priority:5; classtype:attempted-recon; sid:101; rev:4;)```
 
 
- ###To add custom Suricata rules to OPNsense, you can follow these steps:
+ ### Steps to Add Custom Suricata Rules to OPNsense
 
 1. Access OPNsense Web Interface. Log in to the OPNsense web interface using your administrator credentials.
 2. Navigate to System > Settings > Administration. Enable Secure Shell, permit root user login (not recommended for production environment), allow password authentication, and set the SSH listening interface to LAN. Save the changes to apply the SSH configuration.
@@ -249,43 +249,44 @@ This XML file is designed to locate our mycustom.rule file. Next, we will transf
 ```
 sudo apt-get install filezilla
 ```
-4. Run FileZilla, enter the host IP address(sftp://10.50.50.254), username, password, and port, then click on "Quickconnect".
+4. Open FileZilla and connect to your OPNsense firewall using SFTP (sftp://10.50.50.254), username, password, and port.
 
 ![36](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/45983d5d-f53e-415b-8482-5ad56e5e0a95)
 
-5. Now we have access to the OPNsense root directory. On the OPNsense firewall, we will navigate to usr -> local -> opnsense -> scripts -> suricata -> metadata -> rules. You will see a few XML files that already exist. We are going to transfer our custom-suricata-rules.xml file by dragging it into this directory.
+5. Transfer the custom-suricata-rules.xml file to the directory: `usr/local/opnsense/scripts/suricata/metadata/rules`.
 
 ![37](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/6c137ad2-51c1-4f17-9c12-2d49bb4cab05)
 
-6. In the directory where our files are stored, we'll utilize Python to set up an HTTP server. This server's purpose is to deliver our .rules file to OPNsense whenever it's requested by the .xml file. To start the server, run:
+6. In the directory where your files are stored, set up an HTTP server to deliver the .rules file. This server's purpose is to deliver our .rules file to OPNsense whenever it's requested by the .xml file. To start the server, run:
 ``` python3 -m http.server 80 ```
 
 ![38](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/8af92f5f-b3f5-4ae6-a064-8577e5eb2414)
 
-7. Navigate to "Services" -> "Intrusion Detection" -> "Administration". At the top, click on "Reset Service" to apply changes. After resetting, locate "custom-suricata-rules/Custom Suricata Rules rules", tick it, then click "Enable Selected". Finally, click on "Download & Update Rules" to ensure the rules are updated and active.
+7. Navigate to "Services" -> "Intrusion Detection" -> "Administration" -> "Download". At the top, click on "Restart Service" to apply changes. After restarting, find the section for `custom-suricata-rules/Custom Suricata Rules rules`, select it, and click Enable Selected. Click Download & Update Rules to ensure the custom rules are updated and activated.
 
 ![41](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/28e71fa2-8465-4c7a-8ea5-4ce0ba37b7d1)
 
-8. You can verify in the "Rules" section that our custom rule has been successfully added.
+8. Check the "Rules" section in OPNsense to confirm that your custom rule has been successfully added.
 
-![42](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/afa46c22-0de8-45e5-b497-88245cee13f5)
+![last](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/32a35a58-c699-4314-913d-73211b56c82d)
 
 ## Testing
-To assess our firewall's ability to detect intrusion attempts, we will use Nmap. Since we have configured our rule to detect stealth scans, we can perform a scan and verify if the system alerts us to this activity. Run:
+To assess our firewall's ability to detect intrusion attempts, we will use Nmap. Since we have configured our rule to detect stealth scans, we can perform a scan and verify if the system alerts us to this activity.
+Open a terminal on your Kali Linux VM. Run the following command to perform a stealth SYN scan:
 ``` sudo nmap -Pn -sS -p- 10.50.50.20 ```
 
+Replace `[IP_ADDRESS]` with the IP address of the device you are scanning. This should be an IP address on your network that the OPNsense firewall is protecting.
 ![45](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/1b474e0e-c124-432e-a0de-3302852a179a)
 
-Return to our firewall and refresh the Alerts section.
+Return to the OPNsense web interface. Navigate to the Alerts section. Refresh the Alerts page to see if any alerts related to the Nmap scan appear.
 
 ![44](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/00aa3ee2-ad8f-4e51-a88b-59ad94f06bab)
 
-So to wrap this lab up, I installed and configured an OPNsense firewall on VirtualBox. Next, I set up IDS/IPS based on Suricata on the OPNsense platform. I created a custom rule and added it to the configuration. Then, I conducted a reconnaissance port scan against our OPNsense firewall and observed our custom rule in action, effectively detecting the targeted activity.
+## Conclusion
 
+In this lab exercise, we installed and configured an OPNsense firewall on VirtualBox. We proceeded to set up IDS/IPS using Suricata on the OPNsense platform. Additionally, we created a custom rule tailored to detect specific network reconnaissance activities, such as SYN scans. By conducting a controlled port scan using Nmap against a device on our network, we confirmed that our custom rule effectively triggered alerts, demonstrating the firewall's ability to detect and respond to potential intrusion attempts.
 
-
-
-
+A big shout-out to [LS111](https://www.youtube.com/@ls111cyberEd) whose videos were incredibly helpful throughout this lab. Their clear explanations and demos made everything click!
 
 
 
