@@ -276,16 +276,18 @@ Open a terminal on your Kali Linux VM. Run the following command to perform a st
 ``` sudo nmap -Pn -sS -p- 10.50.50.20 ```
 
 Replace `[IP_ADDRESS]` with the IP address of the device you are scanning. This should be an IP address on your network that the OPNsense firewall is protecting.
+
 ![45](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/1b474e0e-c124-432e-a0de-3302852a179a)
 
 Return to the OPNsense web interface. Navigate to the Alerts section. Refresh the Alerts page to see if any alerts related to the Nmap scan appear.
 
-![44](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/00aa3ee2-ad8f-4e51-a88b-59ad94f06bab)
+![last1](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/c741f67d-cd43-49be-8fb5-d250bf635d8f)
 
 ## Conclusion
 
 In this lab exercise, we installed and configured an OPNsense firewall on VirtualBox. We proceeded to set up IDS/IPS using Suricata on the OPNsense platform. Additionally, we created a custom rule tailored to detect specific network reconnaissance activities, such as SYN scans. By conducting a controlled port scan using Nmap against a device on our network, we confirmed that our custom rule effectively triggered alerts, demonstrating the firewall's ability to detect and respond to potential intrusion attempts.
 
+## Resources
 A big shout-out to [LS111](https://www.youtube.com/@ls111cyberEd) whose videos were incredibly helpful throughout this lab. Their clear explanations and demos made everything click!
 
 
