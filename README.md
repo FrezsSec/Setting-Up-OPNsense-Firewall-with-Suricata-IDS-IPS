@@ -221,11 +221,11 @@ Now we can access the OPNsense web interface from another device on the same net
 2. Selecting and Downloading Rule Sets. Choose the rule sets you wish to use and click "Download" to add them to your OPNsense configuration. Ensure that the selected rule sets align with your security requirements and network environment.
 
 ### Adding Custom Rules for IDS/IPS on OPNsense
-I have created custom rules for Suricata that will be applied in this lab. OPNsense IDS/IPS utilizes Suricata. These custom rules are designed to detect Nmap SYN scans, Xmas scans, Fin scans, SSH brute-force attacks, and FTP brute-force attacks. To test these rules, I will use Nmap, a port scanning tool, and Hydra for performing brute-force attacks on Metasploitable2.
+Here is a custom rule to detect SYN scans. A SYN scan is a stealthy scan technique used to determine the status of ports on a target system without completing the TCP handshake. This rule can be implemented in Suricata:
+```alert tcp any any -> $HOME_NET any (msg:"Nmap SYN Scan"; flow:stateless; flags:S; threshold:type limit, track by_src, count 50, seconds 1; priority:5; classtype:attempted-recon; sid:101; rev:4;)```
 
-![34](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/6fccb453-5006-4142-9e6a-b33dcdf4e2c4)
 
- To add custom Suricata rules to OPNsense, you can follow these steps:
+ ###To add custom Suricata rules to OPNsense, you can follow these steps:
 
 1. Access OPNsense Web Interface. Log in to the OPNsense web interface using your administrator credentials.
 2. Navigate to System > Settings > Administration. Enable Secure Shell, permit root user login (not recommended for production environment), allow password authentication, and set the SSH listening interface to LAN. Save the changes to apply the SSH configuration.
@@ -252,14 +252,22 @@ sudo apt-get install filezilla
 
 ![36](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/45983d5d-f53e-415b-8482-5ad56e5e0a95)
 
-Now we have access to the Opnsense root directory. on the Opnsense firewall we are gonna navigate to usr -> local > opnsesne > scripts > suricata >metadata >rules you see afew xml file that already exist. we are gonna transfer our custom-suricata-rules.xml by dragging it
+5. Now we have access to the OPNsense root directory. On the OPNsense firewall, we will navigate to usr -> local -> opnsense -> scripts -> suricata -> metadata -> rules. You will see a few XML files that already exist. We are going to transfer our custom-suricata-rules.xml file by dragging it into this directory.
 
+![37](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/6c137ad2-51c1-4f17-9c12-2d49bb4cab05)
 
+6. In the directory where our files are stored, we'll utilize Python to set up an HTTP server. This server's purpose is to deliver our .rules file to OPNsense whenever it's requested by the .xml file. To start the server, run:
+``` python3 -m http.server 80 ```
 
+![38](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/8af92f5f-b3f5-4ae6-a064-8577e5eb2414)
 
+7. Navigate to "Services" -> "Intrusion Detection" -> "Administration". At the top, click on "Reset Service" to apply changes. After resetting, locate "custom-suricata-rules/Custom Suricata Rules rules", tick it, then click "Enable Selected". Finally, click on "Download & Update Rules" to ensure the rules are updated and active.
 
+![41](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/28e71fa2-8465-4c7a-8ea5-4ce0ba37b7d1)
 
+8. You can verify in the "Rules" section that our custom rule has been successfully added.
 
+![42](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/afa46c22-0de8-45e5-b497-88245cee13f5)
 
 
 
