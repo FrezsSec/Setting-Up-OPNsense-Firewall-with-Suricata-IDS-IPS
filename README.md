@@ -12,7 +12,7 @@ I successfully set up and configured an OPNsense firewall in VirtualBox, integra
 ## Network Design
 The network diagram depicts a simple setup with OPNsense firewall configured with two interfaces: one WAN (Internet-facing) and one LAN. The LAN includes Kali Linux for conducting security testing and Metasploitable 2 as a vulnerable machine.
 
-![3 drawio](https://github.com/FrezsSec/Building-a-Secure-Network-Lab-Firewall-and-IDS-IPS-with-pfSense-and-Metasploitable-2/assets/173344802/b049a042-6bc7-4820-b911-91e3ac88d704)
+![4 drawio](https://github.com/FrezsSec/Setting-Up-OPNsense-Firewall-with-Suricata-IDS-IPS/assets/173344802/fe4ab9a1-5073-45b6-848a-9256eede6399)
 
 
 ## Guide
