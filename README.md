@@ -222,7 +222,7 @@ Now we can access the OPNsense web interface from another device on the same net
 
 ### Adding Custom Rules for IDS/IPS on OPNsense
 Here is a custom rule to detect SYN scans. A SYN scan is a stealthy scan technique used to determine the status of ports on a target system without completing the TCP handshake. This rule can be implemented in Suricata:
-```alert tcp any any -> $HOME_NET any (msg:"Nmap SYN Scan"; flow:stateless; flags:S; threshold:type limit, track by_src, count 50, seconds 1; priority:5; classtype:attempted-recon; sid:101; rev:4;)```
+```alert tcp any any -> $HOME_NET any (msg:"Possible Nmap SYN Scan"; flow:stateless; flags:S; threshold:type limit, track by_src, count 50, seconds 1; priority:5; classtype:attempted-recon; sid:101; rev:4;)```
 
 
  ###To add custom Suricata rules to OPNsense, you can follow these steps:
